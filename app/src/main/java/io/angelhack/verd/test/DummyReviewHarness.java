@@ -52,7 +52,7 @@ public class DummyReviewHarness {
 
             String fp = "img" + p.getProperty("image" + i) + ".jpeg";
             Bitmap bitmap = BitmapFactory.decodeFile(fp);
-            reviews.add(new Review(UUID.fromString(p.getProperty("uuid" + i)), Integer.parseInt(p.getProperty("rating" + i)), Arrays.asList(p.getProperty("tags" + i).split("\\s*,\\s*")), null, p.getProperty("comment" + i)));
+//            reviews.add(new Review(UUID.fromString(p.getProperty("uuid" + i)), Integer.parseInt(p.getProperty("rating" + i)), Arrays.asList(p.getProperty("tags" + i).split("\\s*,\\s*")), null, p.getProperty("comment" + i)));
         }
         for (Review review :
                 reviews) {

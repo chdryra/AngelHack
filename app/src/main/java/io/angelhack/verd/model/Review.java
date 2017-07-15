@@ -20,12 +20,14 @@ public class Review {
 
     }
 
-    public Review(UUID reviewID, int rating, List<String> tags, Uri imageUri, String comment) {
+    public Review(User userId, UUID reviewID, int rating, List<String> tags,
+                  String comment, Date timestamp) {
         this.reviewID=reviewID;
         this.rating = rating;
         this.tags = tags;
-        this.imageUri = imageUri;
         this.comment = comment;
+        this.userId = userId;
+        this.timestamp = timestamp;
     }
 
     public User getUserId() {
