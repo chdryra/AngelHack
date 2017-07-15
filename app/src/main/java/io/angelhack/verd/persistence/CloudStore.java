@@ -13,6 +13,7 @@ import java.util.UUID;
 import io.angelhack.verd.model.Profile;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.User;
+import io.angelhack.verd.model.UserImage;
 
 /**
  * Firebase cloud realtime database.
@@ -27,7 +28,7 @@ public class CloudStore implements PersistenceIFace {
     /**
      * Creates a new instance of FirebaseDatabase.
      */
-    private CloudStore() {
+    public CloudStore() {
         this.db = FirebaseDatabase.getInstance();
         this.dbRef = this.db.getReference();
     }
@@ -38,15 +39,17 @@ public class CloudStore implements PersistenceIFace {
     }
 
     @Override
-    public void addProfile(Profile profile) {
+    public void addProfile(Profile profile, UserImage userImage) {
         User user = profile.getUser();
 
         // Store the following in Firebase RT DB.
         String userIdStr = user.getId().toString();
         String profileName = profile.getName();
 
-        writeUser(userIdStr, profileName);
+        this.dbRef.child(userIdStr).child("profile").setValue(profile);
+
         // Images will be stored in Firebase 'Storage'.
+
 
 
     }
