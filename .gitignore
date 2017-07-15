@@ -1,5 +1,5 @@
 *.iml
-.gradle
+#.gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -9,3 +9,5 @@
 .externalNativeBuild
 libs/
 src/main/res/drawable/
+#.gradle/
+#app/src/main/res/drawable/

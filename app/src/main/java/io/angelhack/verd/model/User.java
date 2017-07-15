@@ -10,17 +10,21 @@ import java.util.UUID;
 
 public class User {
 
+    /**
+     * Creates and returns a new User.
+     * @return
+     */
+    public static User generate() {
+        return new User(UUID.randomUUID());
+    }
+
     private UUID id;
-    private List<UUID> following;
-    private List<UUID> followers;
 
     public User() {
     }
 
-    public User(UUID id, List<UUID> following, List<UUID> followers) {
+    private User(UUID id) {
         this.id = id;
-        this.following = following;
-        this.followers = followers;
     }
 
     public UUID getId() {
@@ -29,21 +33,5 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public List<UUID> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<UUID> following) {
-        this.following = following;
-    }
-
-    public List<UUID> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<UUID> followers) {
-        this.followers = followers;
     }
 }
