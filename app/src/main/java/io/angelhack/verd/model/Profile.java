@@ -1,14 +1,11 @@
 package io.angelhack.verd.model;
 
-import android.graphics.Bitmap;
-
 /**
  * Stores human-readable information for a given user.
  * Created by sameenislam on 15/07/2017.
  */
 
 public class Profile {
-
     private User user;
     private String name;
 

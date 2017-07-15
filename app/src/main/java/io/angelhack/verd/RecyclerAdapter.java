@@ -17,9 +17,11 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<ReviewViewHolder>{
     private static final int RECYCLER_VIEW_ITEM = R.layout.recycler_view_item;
     private List<ReviewViewData> mReviews;
+    private UsersRepo mUsers;
 
-    public RecyclerAdapter() {
+    public RecyclerAdapter(UsersRepo users) {
         mReviews = new ArrayList<>();
+        mUsers = users;
     }
 
     public void addReview(ReviewViewData review) {
@@ -38,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ReviewViewHolder>{
 
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
-        holder.setReviewData(mReviews.get(position));
+        holder.setReviewData(mReviews.get(position), mUsers);
     }
 
     @Override

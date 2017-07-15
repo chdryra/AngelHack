@@ -29,8 +29,12 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mReviewComment = (TextView)v.findViewById(REVIEW_COMMENT);
     }
 
-    public void setReviewData(ReviewViewData review) {
+    public void setReviewData(ReviewViewData review, UsersRepo repo) {
         mReviewPhoto.setImageBitmap(review.getBitmap());
         mReviewComment.setText(review.getComment());
+
+        UserViewData profile = repo.getProfile(review.getAuthorId());
+        mUserPhoto.setImageBitmap(null);
+        mUserName.setText(profile.getName());
     }
 }

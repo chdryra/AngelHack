@@ -1,6 +1,6 @@
 package io.angelhack.verd;
 
-import android.media.Image;
+import android.net.Uri;
 
 import java.util.UUID;
 
@@ -13,12 +13,12 @@ import java.util.UUID;
 public class UserViewData {
     private final UUID mId;
     private final String mName;
-    private final Image mBitmap;
+    private final Uri mImage;
 
-    public UserViewData(UUID id, String name, Image bitmap) {
+    public UserViewData(UUID id, String name, Uri image) {
         mId = id;
         mName = name;
-        mBitmap = bitmap;
+        mImage = image;
     }
 
     public UUID getId() {
@@ -29,7 +29,7 @@ public class UserViewData {
         return mName;
     }
 
-    public Image getBitmap() {
-        return mBitmap;
+    public Uri getImage() {
+        return mImage;
     }
 }
