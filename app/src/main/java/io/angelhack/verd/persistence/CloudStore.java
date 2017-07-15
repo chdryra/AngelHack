@@ -55,50 +55,23 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
-    private void writeNewUser(String userId, String name) {
-//        this.dbRef.child("users").child(userId).setValue();
-    }
-
-    public void addUser(User user) {
-
-        // Check for optionals
-//        if(photo != null)
-//            writeNewUser(id, name, photo);
-
-
-    }
-
     public User getUser(UUID userID) {
 
         User user = null; // TODO: Fetch user from Firebase by userID.
+
         /*
          * Convert UUID to String for storage.
          */
-        List<String> followerIDs = new ArrayList<>();
-        for (UUID follower : user.getFollowers()) {
-            followerIDs.add(follower.toString());
-        }
+//        List<String> followerIDs = new ArrayList<>();
+//        for (UUID follower : user.getFollowers()) {
+//            followerIDs.add(follower.toString());
+//        }
 
-        List<String> followingIDs = new ArrayList<>();
-        for (UUID following : user.getFollowing()) {
-            followingIDs.add(following.toString());
-        }
+//        List<String> followingIDs = new ArrayList<>();
+//        for (UUID following : user.getFollowing()) {
+//            followingIDs.add(following.toString());
+//        }
         return null;
     }
-
-    public void writeReview(Review review) {
-
-    }
-
-    public String readReview() {
-        return null;
-    }
-
-    public void writeProfile() {
-
-    }
-
-
-
 
 }
