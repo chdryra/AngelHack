@@ -17,12 +17,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.UUID;
 
 import io.angelhack.verd.firebase.FBProfile;
-import io.angelhack.verd.model.Profile;
+import io.angelhack.verd.firebase.FBReview;
 import io.angelhack.verd.model.Review;
-import io.angelhack.verd.model.User;
 import io.angelhack.verd.model.UserImage;
 
 /**
@@ -55,7 +53,7 @@ public class CloudStore implements PersistenceIFace {
 
     @Override
     public void addProfile(final FBProfile profile, @Nullable UserImage userImage) {
-        if(userImage != null) {
+        if (userImage != null) {
             writeImageThenUser(profile, userImage);
         } else {
             writeUser(profile);
@@ -89,33 +87,47 @@ public class CloudStore implements PersistenceIFace {
         }
     }
 
-
     private void writeUser(FBProfile profile) {
         this.dbRef.child(profile.getId()).child("profile").setValue(profile);
     }
 
     @Override
-    public void addReview(Review review) {
-
+    public void addReview(final FBReview review) {
+        if(review.getImageUri() != null) {
+            writeImageThenReview(review);
+        } else {
+            writeReview(review);
+        }
     }
 
-    public User getUser(UUID userID) {
+    private void writeImageThenReview(final FBReview review) {
+        try {
+            StorageReference imgRef = this.storageReference.child(review.getReviewId())
+                    .child("reviewPic.jpeg");
+            InputStream stream = new FileInputStream(new File(review.getImageUri().toString()));
+            UploadTask uploadTask = imgRef.putStream(stream);
 
-        User user = null; // TODO: Fetch user from Firebase by userID.
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    writeReview(review);
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    review.setImageUri(downloadUrl.getPath());
+                    writeReview(review);
+                }
+            });
 
-        /*
-         * Convert UUID to String for storage.
-         */
-//        List<String> followerIDs = new ArrayList<>();
-//        for (UUID follower : user.getFollowers()) {
-//            followerIDs.add(follower.toString());
-//        }
+        } catch (FileNotFoundException e) {
+            Log.e("VERD", "Unable to locate FBProfile picture URI!");
+        }
+    }
 
-//        List<String> followingIDs = new ArrayList<>();
-//        for (UUID following : user.getFollowing()) {
-//            followingIDs.add(following.toString());
-//        }
-        return null;
+    private void writeReview(FBReview review) {
+        this.dbRef.child(review.getReviewId()).child("review").setValue(review);
     }
 
 }

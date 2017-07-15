@@ -1,9 +1,5 @@
 package io.angelhack.verd.firebase;
 
-import java.net.URI;
-
-import io.angelhack.verd.model.User;
-
 /**
  * Created by sameenislam on 15/07/2017.
  */
