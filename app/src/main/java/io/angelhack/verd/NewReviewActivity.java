@@ -11,10 +11,14 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.security.Timestamp;
+import java.sql.Time;
 
 import io.angelhack.verd.model.ModelVerdIFace;
 import io.angelhack.verd.model.Review;
@@ -42,6 +46,7 @@ public class NewReviewActivity extends AppCompatActivity {
 
     final int REQUEST_IMAGE_CAPTURE = 0;
     final int PICK_IMAGE_REQUEST = 1;
+    Uri uri;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -62,7 +67,7 @@ public class NewReviewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri uri = data.getData();
+            uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
@@ -78,7 +83,7 @@ public class NewReviewActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
+            uri = data.getData();
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -143,6 +148,13 @@ public class NewReviewActivity extends AppCompatActivity {
 
     }
     public Review shareReviewOnClick(){
+        Timestamp timeStamp = new Timestamp();
+        Time time = (Time) timeStamp.getTimestamp();
+
+        EditText text = (EditText) findViewById(R.id.editText);
+        String comment = text.getText().toString();
+        Review newReview = new Review(1,1,emojiRating,comment,time,uri);
+
 
 
         return null;
