@@ -3,16 +3,19 @@ package io.angelhack.verd.model;
 import android.media.Image;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Review {
 
     @Deprecated
     String subject;
 
+    UUID reviewID;
     int rating;
-    List<String> tags;
-    Image image;
-    String comment;
+
+    List<String> tags; // optional
+    Image image; // optional
+    String comment; // optional
 
     public Review() {
     }
@@ -33,10 +36,13 @@ public class Review {
         this.tags = tags;
     }
 
-    public Review(int rating, List<String> tags, Image image, String comment) {
+    public Review(UUID reviewID, int rating, List<String> tags, Image image, String comment) {
+
         this.rating = rating;
         this.tags = tags;
         this.image = image;
         this.comment = comment;
     }
+
+
 }
