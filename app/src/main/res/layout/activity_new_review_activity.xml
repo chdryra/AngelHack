@@ -4,50 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.angelhack.verd.NewReviewActivity">
+    android:orientation="vertical"
+    tools:context="io.angelhack.verd.NewReviewActivity"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+        android:orientation="horizontal">
+
+        <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RadioGroup
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:paddingTop="25dp"
+            >
+
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Verd"
-                    android:onClick="onRadioButtonClicked"/>
+                android:onClick="onRadioButtonClicked"
+                android:text="😍 Verd"
+                android:id="@+id/verd_radio_button"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Good"
-                    android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="☺️ Good"
+                android:id="@+id/good_radio_button"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Average"
-                    android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="😐 Average"
+                android:id="@+id/average_radio_button"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bad"
-                    android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="😒 Bad"
+                android:id="@+id/bad_radio_button"/>
 
-            </RadioGroup>
-        </LinearLayout>
+        </RadioGroup>
+
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imageView"/>
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/placeholder_image"
+            />
 
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:inputType="textMultiLine"
+        android:hint="Please enter your caption here, use hashtags to help people find your review"
+        android:padding="35dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <CheckBox
+            android:id="@+id/shareFacebookCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Share on Facebook"
+            android:background="#3b5998"
+            android:padding="20dp"
+            android:textColor="@color/white"/>
+
+        <CheckBox
+            android:id="@+id/shareTwitterCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Share on Twitter"
+            android:background="#0084b4"
+            android:padding="20dp"
+            android:textColor="@color/white"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Share on Tumblr"
+            android:background="#35465c"
+            android:padding="20dp"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/shareReviewButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share review"
+        android:padding="20dp"
+        />
+
 
 </LinearLayout>

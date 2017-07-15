@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-        SampleFirebaseSDK test = new SampleFirebaseSDK();
-        test.sampleUpdate();
-        test.readSampleUpdate();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -64,18 +61,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         if (item.getItemId() == R.id.feed_button) {
-                            Snackbar.make(bottomNavigationView, "feed pressed", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
+
                         }
 
                         else if (item.getItemId() == R.id.search_button) {
-                            Snackbar.make(bottomNavigationView, "search pressed", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
+
                         }
 
                         else if (item.getItemId() == R.id.my_profile_button) {
-                            Snackbar.make(bottomNavigationView, "profile pressed", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
+                            final Intent intent = new Intent(getBaseContext(), MyProfile.class);
+                            startActivity(intent);
                         }
                     return true;
 
