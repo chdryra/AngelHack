@@ -30,6 +30,14 @@ import io.angelhack.verd.model.UserImage;
 
 public class CloudStore implements PersistenceIFace {
 
+    public static CloudStore instance = null;
+
+    public static CloudStore getInstance() {
+        if(instance == null)
+            instance = new CloudStore();
+        return instance;
+    }
+
     private FirebaseDatabase db; // db instance
     private FirebaseStorage store;
     private DatabaseReference dbRef; // db reference
