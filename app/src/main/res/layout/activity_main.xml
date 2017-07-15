@@ -26,12 +26,14 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@mipmap/new_post_review_btn"
+        app:srcCompat="@mipmap/add_icon"
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin" />
+        android:layout_marginBottom="@dimen/fab_bottom_margin"
+        android:layout_alignBottom="@+id/bottom_navigation"
+        android:layout_alignParentRight="true"
+        />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
