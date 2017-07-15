@@ -20,8 +20,6 @@ public class User {
 
     private UUID id;
 
-    public User() {
-    }
 
     private User(UUID id) {
         this.id = id;

@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,13 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 import java.security.Timestamp;
+import java.sql.Date;
 import java.sql.Time;
+import java.util.UUID;
 
 import io.angelhack.verd.model.ModelVerdIFace;
 import io.angelhack.verd.model.Review;
+import io.angelhack.verd.model.Session;
 
 import static android.R.attr.content;
 import static android.R.attr.contextUri;
@@ -148,14 +152,11 @@ public class NewReviewActivity extends AppCompatActivity {
 
     }
     public Review shareReviewOnClick(){
-        Timestamp timeStamp = new Timestamp();
-        Time time = (Time) timeStamp.getTimestamp();
+        Date time = new Date(System.currentTimeMillis());
 
         EditText text = (EditText) findViewById(R.id.editText);
         String comment = text.getText().toString();
-        Review newReview = new Review(1,1,emojiRating,comment,time,uri);
-
-
+        Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(),emojiRating,comment,time,uri);
 
         return null;
     }

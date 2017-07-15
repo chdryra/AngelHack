@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import io.angelhack.verd.model.ModelVerd;
+import io.angelhack.verd.model.Session;
+import io.angelhack.verd.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        setSession();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void setSession() {
+        Session.newSession(User.generate());
     }
 
     private void setRecyclerView() {
