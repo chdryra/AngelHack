@@ -1,11 +1,10 @@
 package io.angelhack.verd.model;
 
-import android.graphics.Bitmap;
-
 import java.util.List;
 import java.util.UUID;
 
 /**
+ * Represents a unique user in the system.
  * Created by sameenislam on 15/07/2017.
  */
 
