@@ -46,7 +46,7 @@ public class CloudStore implements PersistenceIFace {
         String userIdStr = user.getId().toString();
         String profileName = profile.getName();
 
-        this.dbRef.child(userIdStr).child("profile").setValue(profile);
+        writeUser(userIdStr, profile);
 
         // Images will be stored in Firebase 'Storage'.
 
@@ -54,8 +54,8 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
-    private void writeUser(String userIdStr, String profileName) {
-//        dbRef.child("users").
+    private void writeUser(String userIdStr, Profile profile) {
+        this.dbRef.child(userIdStr).child("profile").setValue(profile);
     }
 
     @Override
