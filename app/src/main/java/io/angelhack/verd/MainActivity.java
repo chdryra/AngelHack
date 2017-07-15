@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.angelhack.verd.firebase.SampleFirebaseSDK;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        SampleFirebaseSDK test = new SampleFirebaseSDK();
+        test.sampleUpdate();
+        test.readSampleUpdate();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
