@@ -40,7 +40,14 @@ public class CloudStore implements PersistenceIFace {
     @Override
     public void addProfile(Profile profile) {
         User user = profile.getUser();
-        
+
+        // Store the following in Firebase RT DB.
+        UUID userId = user.getId();
+        String profileName = profile.getName();
+
+        // Images will be stored in Firebase 'Storage'.
+//        Bitmap profilePhoto = profile.getPhoto();
+
     }
 
     @Override
@@ -48,12 +55,11 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
+    private void writeNewUser(String userId, String name) {
+//        this.dbRef.child("users").child(userId).setValue();
+    }
+
     public void addUser(User user) {
-
-        String id = user.getId().toString();
-        String name = user.getName();
-        Bitmap photo = user.getPhoto();
-
 
         // Check for optionals
 //        if(photo != null)
@@ -92,11 +98,7 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
-    private void writeNewUser(String userId, String name, File email) {
 
-
-//        dbRef.child("users").child(userId).setValue(user);
-    }
 
 
 }
