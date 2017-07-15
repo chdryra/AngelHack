@@ -1,4 +1,4 @@
-package io.angelhack.verd.logic.model;
+package io.angelhack.verd.model;
 
 import android.media.Image;
 
