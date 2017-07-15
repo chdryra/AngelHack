@@ -2,6 +2,8 @@ package io.angelhack.verd.persistence;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import io.angelhack.verd.model.Review;
+
 /**
  * Firebase cloud realtime database.
  * Created by sameenislam on 15/07/2017.
@@ -22,13 +24,19 @@ public class CloudStore {
         this.database = database;
     }
 
-    public FirebaseDatabase getDatabase() {
-        return database;
+    public void writeReview(Review review) {
+
     }
 
-    public void setDatabase(FirebaseDatabase database) {
-        this.database = database;
+    public String readReview() {
+        return null;
     }
+
+    public void writeProfile() {
+
+    }
+
+
 
 
 
