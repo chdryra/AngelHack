@@ -34,11 +34,11 @@ public class ModelVerd implements ModelVerdIFace {
 
     @Override
     public void addProfile(Profile profile) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void addReview(Review review) {
-
+        throw new UnsupportedOperationException();
     }
 }

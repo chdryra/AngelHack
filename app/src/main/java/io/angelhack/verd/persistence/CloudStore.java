@@ -42,12 +42,17 @@ public class CloudStore implements PersistenceIFace {
         User user = profile.getUser();
 
         // Store the following in Firebase RT DB.
-        UUID userId = user.getId();
+        String userIdStr = user.getId().toString();
         String profileName = profile.getName();
 
+        writeUser(userIdStr, profileName);
         // Images will be stored in Firebase 'Storage'.
-//        Bitmap profilePhoto = profile.getPhoto();
 
+
+    }
+
+    private void writeUser(String userIdStr, String profileName) {
+//        dbRef.child("users").
     }
 
     @Override
