@@ -1,5 +1,6 @@
 package io.angelhack.verd.persistence;
 
+import io.angelhack.verd.firebase.FBProfile;
 import io.angelhack.verd.model.Profile;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.UserImage;
@@ -10,7 +11,7 @@ import io.angelhack.verd.model.UserImage;
 
 interface PersistenceIFace {
 
-    void addProfile(Profile profile, UserImage userImage);
+    void addProfile(FBProfile profile, UserImage userImage);
     void addReview(Review review);
 
 
