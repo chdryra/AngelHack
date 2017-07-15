@@ -8,6 +8,18 @@ import java.util.UUID;
 
 public class ModelVerd implements ModelVerdIFace {
 
+    private static ModelVerd instance = null;
+
+    protected ModelVerd() {
+
+    }
+
+    public static ModelVerdIFace getInstance() {
+        if(instance == null)
+            instance = new ModelVerd();
+        return instance;
+    }
+
     @Override
     public Profile getProfile(UUID userID) {
         throw new UnsupportedOperationException();
