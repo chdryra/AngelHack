@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/feed_button"
+        android:enabled="true"
+        android:icon="@mipmap/home_icon"
+        android:title="Feed"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/search_button"
+        android:enabled="true"
+        android:icon="@mipmap/search_icon"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/my_profile_button"
+        android:enabled="true"
+        android:icon="@mipmap/profile_icon"
+        android:title="My profile"
+        app:showAsAction="ifRoom" />
+</menu>
