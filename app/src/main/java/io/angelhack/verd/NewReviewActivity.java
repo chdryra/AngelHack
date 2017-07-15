@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -23,9 +24,11 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.UUID;
 
+import io.angelhack.verd.firebase.FBReview;
 import io.angelhack.verd.model.ModelVerdIFace;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.Session;
+import io.angelhack.verd.persistence.CloudStore;
 
 import static android.R.attr.content;
 import static android.R.attr.contextUri;
@@ -34,11 +37,14 @@ import static android.R.attr.x;
 public class NewReviewActivity extends AppCompatActivity {
 
     Intent intent = new Intent();
+    private EditText mComment;
+    private int mEmojiRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_review_activity);
+        mComment = (EditText)findViewById(R.id.editText);
         int optionChosen = getIntent().getIntExtra("option",1);
 
         if (optionChosen == 1) {
@@ -135,30 +141,33 @@ public class NewReviewActivity extends AppCompatActivity {
         return orientation;
     }
 
-    int emojiRating = 0;
     public void onRadioButtonClicked(View view){
+        mEmojiRating = 0;
         if(view.getId()== R.id.verd_radio_button) {
-            emojiRating = 3;
+            mEmojiRating = 3;
         }
         if(view.getId()== R.id.good_radio_button) {
-            emojiRating = 2;
+            mEmojiRating = 2;
         }
         if(view.getId()== R.id.average_radio_button) {
-            emojiRating = 1;
+            mEmojiRating = 1;
         }
         if(view.getId()== R.id.bad_radio_button) {
-            emojiRating = 0;
+            mEmojiRating = 0;
         }
 
     }
-    public Review shareReviewOnClick(){
+    public void shareReviewOnClick(View view){
         Date time = new Date(System.currentTimeMillis());
 
-        EditText text = (EditText) findViewById(R.id.editText);
-        String comment = text.getText().toString();
-        Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(),emojiRating,comment,time,uri);
+        String comment = mComment.getText().toString();
+        Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(),mEmojiRating,comment,time,uri);
 
-        return null;
+        CloudStore cs = new CloudStore();
+        FBReview review = new FBReview(newReview.getUserId().getId().toString(),
+                newReview.getReviewID().toString(),newReview.getRating(),newReview.getComment(),newReview.getTimestamp().getTime());
+        cs.addReview(review);
+        finish();
     }
 
 }
