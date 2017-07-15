@@ -37,7 +37,7 @@ public class Review {
     }
 
     public Review(UUID reviewID, int rating, List<String> tags, Image image, String comment) {
-
+        this.reviewID=reviewID;
         this.rating = rating;
         this.tags = tags;
         this.image = image;
