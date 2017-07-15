@@ -11,15 +11,13 @@ public class Profile {
 
     private User user;
     private String name;
-    private Bitmap photo;
 
     public Profile() {
     }
 
-    public Profile(User user, String name, Bitmap photo) {
+    public Profile(User user, String name) {
         this.user = user;
         this.name = name;
-        this.photo = photo;
     }
 
     public String getName() {
@@ -28,14 +26,6 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Bitmap getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
     }
 
     public User getUser() {
