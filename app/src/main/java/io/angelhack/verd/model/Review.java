@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class Review {
-
     private User userId;
     private UUID reviewID;
     private int rating;
