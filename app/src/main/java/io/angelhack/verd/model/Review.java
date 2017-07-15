@@ -1,5 +1,6 @@
 package io.angelhack.verd.model;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 import java.util.List;
@@ -14,14 +15,14 @@ public class Review {
     int rating;
 
     List<String> tags; // optional
-    Image image; // optional
+    Bitmap image; // optional
     String comment; // optional
 
     public Review() {
     }
 
     @Deprecated
-    public Review(String subject, int rating, List<String> tags, Image image, String comment) {
+    public Review(String subject, int rating, List<String> tags, Bitmap image, String comment) {
         this.subject = subject;
         this.rating = rating;
         this.tags = tags;
@@ -36,7 +37,7 @@ public class Review {
         this.tags = tags;
     }
 
-    public Review(UUID reviewID, int rating, List<String> tags, Image image, String comment) {
+    public Review(UUID reviewID, int rating, List<String> tags, Bitmap image, String comment) {
 
         this.rating = rating;
         this.tags = tags;
