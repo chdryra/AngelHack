@@ -6,11 +6,14 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.IOException;
 
-public class New_review_activity extends AppCompatActivity {
+import static android.R.attr.x;
+
+public class NewReviewActivity extends AppCompatActivity {
 
     Intent intent = new Intent();
 
@@ -72,7 +75,7 @@ public class New_review_activity extends AppCompatActivity {
         }
     }
 
-    public void onRadioButtonClicked(){
+    public void onRadioButtonClicked(View view){
 
     }
 

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final Intent intent = new Intent(getBaseContext(), New_review_activity.class);
+        final Intent intent = new Intent(getBaseContext(), NewReviewActivity.class);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

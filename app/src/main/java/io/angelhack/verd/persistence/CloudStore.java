@@ -54,8 +54,8 @@ public class CloudStore implements PersistenceIFace {
         String name = user.getName();
         Bitmap photo = user.getPhoto();
 
-
         // Check for optionals
+
 //        if(photo != null)
 //            writeNewUser(id, name, photo);
 

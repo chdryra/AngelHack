@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.angelhack.verd.New_review_activity">
+    tools:context="io.angelhack.verd.NewReviewActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
