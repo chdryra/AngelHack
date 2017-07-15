@@ -8,13 +8,14 @@ import android.graphics.Bitmap;
 
 public class UserImage {
 
-    private String userID;
+    private User user;
     private Bitmap photo;
 
     public UserImage() {
     }
 
-    public UserImage(Bitmap photo) {
+    public UserImage(User user, Bitmap photo) {
+        this.user = user;
         this.photo = photo;
     }
 
