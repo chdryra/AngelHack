@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="onRadioButtonClicked"
                 android:text="😍 Verd"
-                android:id="@+id/verd_radio_button"/>
+                android:id="@+id/verd_radio_button"
+                android:textColor="@color/colorPrimary"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
