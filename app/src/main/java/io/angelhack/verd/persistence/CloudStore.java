@@ -39,6 +39,7 @@ public class CloudStore implements PersistenceIFace {
 
     @Override
     public void addProfile(Profile profile) {
+        User user = profile.getUser();
         
     }
 
@@ -54,13 +55,9 @@ public class CloudStore implements PersistenceIFace {
         Bitmap photo = user.getPhoto();
 
 
-
-
-
         // Check for optionals
 //        if(photo != null)
 //            writeNewUser(id, name, photo);
-
 
 
     }
@@ -100,7 +97,6 @@ public class CloudStore implements PersistenceIFace {
 
 //        dbRef.child("users").child(userId).setValue(user);
     }
-
 
 
 }

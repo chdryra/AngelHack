@@ -10,6 +10,7 @@ public interface ModelVerdIFace {
 
     Profile getProfile(UUID userID);
     Review getReview(UUID reviewID);
-
+    void addProfile(Profile profile);
+    void addReview(Review review);
 
 }
