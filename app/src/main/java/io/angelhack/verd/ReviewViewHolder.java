@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private static final int REVIEW_EMOJI = R.id.review_emoji;
     private static final int REVIEW_COMMENT = R.id.review_comment;
     private static final int REVIEW_DATE = R.id.review_date;
+    private static final int LIKE_BUTTON = R.id.like_button;
+    private static final int COMMENT_BUTTON = R.id.comment_button;
+    private static final int SHARE_BUTTON = R.id.share_button;
 
     private final ImageView mUserPhoto;
     private final TextView mUserName;
@@ -39,6 +43,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private final ImageView mReviewEmoji;
     private final TextView mReviewComment;
     private final TextView mReviewDate;
+    private final ImageButton mShareButton;
+    private final ImageButton mLikeButton;
+    private final ImageButton mCommentButton;
 
     public ReviewViewHolder(View v) {
         super(v);
@@ -48,6 +55,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mReviewEmoji = (ImageView)v.findViewById(REVIEW_EMOJI);
         mReviewComment = (TextView)v.findViewById(REVIEW_COMMENT);
         mReviewDate = (TextView) v.findViewById(REVIEW_DATE);
+        mShareButton = (ImageButton) v.findViewById(SHARE_BUTTON);
+        mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
+        mCommentButton = (ImageButton) v.findViewById(COMMENT_BUTTON);
     }
 
     public void setReviewData(Review review, UsersRepo repo, final Context context) {
