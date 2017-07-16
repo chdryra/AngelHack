@@ -106,12 +106,12 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         if(review.getRating() == 3) {
             emoji = R.mipmap.verd_emoji;
         }
-        else if(review.getRating() == 1) {
+        else if(review.getRating() == 2) {
             emoji = R.mipmap.good_emoji;
         }
-         else if(review.getRating() == 2) {
+         else if(review.getRating() == 1) {
             emoji = R.mipmap.average_emoji;
-        } else {
+        } else if(review.getRating() == 0) {
             emoji = R.mipmap.verd_emoji;
         }
         mReviewEmoji.setImageResource(emoji);
