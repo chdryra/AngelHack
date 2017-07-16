@@ -1,8 +1,6 @@
 package io.angelhack.verd.persistence;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +17,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
@@ -135,10 +133,10 @@ public class CloudStore implements PersistenceIFace {
 
     private void writeImageThenUser(final FBProfile profile, UserImage userImage) {
         try {
-            InputStream stream = getImageInputStream(userImage);
-
             StorageReference imgRef = this.storageReference.child(profile.getId())
                     .child("profilePic.jpeg");
+            File file = new File(userImage.getPhotoURI().getPath());
+            InputStream stream = new FileInputStream(file.getAbsolutePath());
             UploadTask uploadTask = imgRef.putStream(stream);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -156,18 +154,9 @@ public class CloudStore implements PersistenceIFace {
                 }
             });
 
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             Log.e("VERD", "Unable to locate FBProfile picture URI!");
         }
-    }
-
-    @NonNull
-    private InputStream getImageInputStream(UserImage userImage) {
-        Bitmap bmp = BitmapFactory.decodeFile(userImage.getPhotoURI().getPath());
-        Bitmap scaled = Bitmap.createScaledBitmap(bmp, 300, 300, false);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        scaled.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-        return new ByteArrayInputStream(bos.toByteArray());
     }
 
     private void writeUser(FBProfile profile) {
