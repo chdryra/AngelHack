@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String SAM_NAME = "Sam";
     public static final String GAUTHAM = "ff4a3c26-f1c3-4475-a65e-4e78e0e67eef";
     public static final String GAUTHAM_NAME = "Gautham";
-    public static final String JAY = "ff4a3c26-f1c3-4475-a65e-4e78e0e6eef";
+    public static final String JAY = "ff4a3c26-f1c3-4475-a65e-4e78e0e68eef";
     public static final String JAY_NAME = "Jay";
 
     @Override
