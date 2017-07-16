@@ -1,6 +1,7 @@
 package io.angelhack.verd;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +62,21 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mShareButton = (ImageButton) v.findViewById(SHARE_BUTTON);
         mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
         mCommentButton = (ImageButton) v.findViewById(COMMENT_BUTTON);
+
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mReview.getComment());
+                sendIntent.setType("text/plain");
+                view.getContext()
+                        .startActivity(Intent.createChooser(sendIntent, "Send review to..."));
+
+            }
+        });
+
+
     }
 
     public void setReviewData(Review review, UsersRepo repo, final Context context) {
