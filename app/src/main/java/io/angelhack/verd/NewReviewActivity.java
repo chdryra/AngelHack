@@ -8,7 +8,9 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,8 +31,7 @@ public class NewReviewActivity extends AppCompatActivity {
 
     private Intent intent = new Intent();
     private EditText mComment;
-    private int mEmojiRating;
-
+    private int mEmojiRating=-1;
     private Uri uri;
 
     @Override
@@ -69,6 +70,26 @@ public class NewReviewActivity extends AppCompatActivity {
             uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+                try {
+                    int orientation = getOrientation(getApplicationContext(),uri);
+                    Log.e("LOGTAG","Orientation is "+orientation);
+                    Matrix matrix = new Matrix();
+                    if (orientation == 90) {
+                        matrix.postRotate(90);
+                    }
+                    else if (orientation == 180) {
+                        matrix.postRotate(180);
+                    }
+                    else if (orientation == 270) {
+                        matrix.postRotate(270);
+                    }
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true); // rotating bitmap
+                }
+                catch (Exception e) {
+
+                }
+
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -82,8 +103,10 @@ public class NewReviewActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
                 try {
                     int orientation = getOrientation(getApplicationContext(),uri);
+                    Log.e("LOGTAG","Orientation is "+orientation);
                     Matrix matrix = new Matrix();
                     if (orientation == 90) {
                         matrix.postRotate(90);
@@ -126,7 +149,7 @@ public class NewReviewActivity extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view){
-        mEmojiRating = 0;
+
         if(view.getId()== R.id.verd_radio_button) {
             mEmojiRating = 3;
         }
@@ -142,19 +165,23 @@ public class NewReviewActivity extends AppCompatActivity {
 
     }
     public void shareReviewOnClick(View view){
+
         Date time = new Date(System.currentTimeMillis());
 
         String comment = mComment.getText().toString();
-        Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(),mEmojiRating,comment,time,uri);
+        if(mEmojiRating>-1) {
+            Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(), mEmojiRating, comment, time, uri);
 
-        CloudStore cs = new CloudStore(this);
-        FBReview review = new FBReview(newReview.getUserId().getId().toString(),
-                newReview.getReviewID().toString(),newReview.getRating(),newReview.getComment(),newReview.getTimestamp().getTime());
-        File file = new File(newReview.getImageUri().getPath());
-        //review.setImageUri(file.getAbsolutePath());
-        review.setImageUri(uri.toString());
-        cs.addReview(newReview);
-        finish();
+            CloudStore cs = new CloudStore(this);
+            FBReview review = new FBReview(newReview.getUserId().getId().toString(),
+                    newReview.getReviewID().toString(), newReview.getRating(), newReview.getComment(), newReview.getTimestamp().getTime());
+            review.setImageUri(uri.toString());
+            cs.addReview(newReview);
+            finish();
+        } else {
+            Snackbar.make(view, "Please select a rating and try again!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
 }
