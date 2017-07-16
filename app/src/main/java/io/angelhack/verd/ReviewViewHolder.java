@@ -103,10 +103,6 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mLikeNum    = (TextView) v.findViewById(LIKE_NUM);
 
         mLikeNum.setText(Integer.parseInt(mLikeNum.getText().toString())+1);
-        String uri = "@drawable/myresource";  // where myresource (without the extension) is the file
-
-        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-        Drawable res = getResources().getDrawable();
-        mLikeButton.setImageDrawable();
+        mLikeButton.setImageResource(R.mipmap.like_icon);
     }
 }
