@@ -71,7 +71,8 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, mReview.getComment());
+                String sendStr = mUserName + " says '" + mReview.getComment() + "'.";
+                sendIntent.putExtra(Intent.EXTRA_TEXT, sendStr);
                 sendIntent.setType("text/plain");
                 view.getContext()
                         .startActivity(Intent.createChooser(sendIntent, "Send review to..."));
@@ -102,17 +103,23 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mUserPhoto.setImageBitmap(null);
         mUserName.setText(profile.getName());
         mUserPhoto.setImageResource(R.mipmap.profile_icon);
+        String emojiStr;
         int emoji;
         if(review.getRating() == 3) {
             emoji = R.mipmap.verd_emoji;
+            emojiStr = "\uD83D\uDE0D";
         }
         else if(review.getRating() == 2) {
             emoji = R.mipmap.good_emoji;
+            emojiStr = "☺️";
         }
          else if(review.getRating() == 1) {
             emoji = R.mipmap.average_emoji;
+            emojiStr = "\uD83D\uDE10";
         } else{
-            emoji = R.mipmap.verd_emoji;
+            emoji = R.mipmap.bad_emoji;
+            emojiStr = "\uD83D\uDE12";
+
         }
         mReviewEmoji.setImageResource(emoji);
 
