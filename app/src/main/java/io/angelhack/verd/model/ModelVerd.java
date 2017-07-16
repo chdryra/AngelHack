@@ -41,8 +41,17 @@ public class ModelVerd implements ModelVerdIFace {
         if(user.getId().toString().equals(LoginActivity.RIZ)) {
             profile = getRiz();
             profile.addFollowing(getFaraz().getUser());
-        } else {
+        } else if(user.getId().toString().equals(LoginActivity.FARAZ)){
             profile = getFaraz();
+            profile.addFollowing(getRiz().getUser());
+        } else if(user.getId().toString().equals(LoginActivity.SAM)){
+            profile = getSam();
+            profile.addFollowing(getRiz().getUser());
+        } else if(user.getId().toString().equals(LoginActivity.GAUTHAM)){
+            profile = getGautham();
+            profile.addFollowing(getRiz().getUser());
+        } else {
+            profile = getJay();
             profile.addFollowing(getRiz().getUser());
         }
 
@@ -61,6 +70,27 @@ public class ModelVerd implements ModelVerdIFace {
         User f = User.generate();
         f.setId(UUID.fromString(LoginActivity.FARAZ));
         return new Profile(f, LoginActivity.FARAZ_NAME);
+    }
+
+    @NonNull
+    private Profile getSam() {
+        User f = User.generate();
+        f.setId(UUID.fromString(LoginActivity.SAM));
+        return new Profile(f, LoginActivity.SAM_NAME);
+    }
+
+    @NonNull
+    private Profile getGautham() {
+        User f = User.generate();
+        f.setId(UUID.fromString(LoginActivity.GAUTHAM));
+        return new Profile(f, LoginActivity.GAUTHAM_NAME);
+    }
+
+    @NonNull
+    private Profile getJay() {
+        User f = User.generate();
+        f.setId(UUID.fromString(LoginActivity.JAY));
+        return new Profile(f, LoginActivity.JAY_NAME);
     }
 
     @Override
