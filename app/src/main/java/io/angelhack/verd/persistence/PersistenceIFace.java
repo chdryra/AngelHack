@@ -11,7 +11,6 @@ import io.angelhack.verd.model.UserImage;
 interface PersistenceIFace {
 
     void addProfile(FBProfile profile, UserImage userImage);
+
     void addReview(Review review);
-
-
 }

@@ -48,6 +48,8 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton mLikeButton;
     private final ImageButton mCommentButton;
 
+    private Review mReview;
+
     public ReviewViewHolder(View v) {
         super(v);
         mUserPhoto = (ImageView)v.findViewById(USER_PHOTO);
@@ -62,6 +64,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setReviewData(Review review, UsersRepo repo, final Context context) {
+        mReview = review;
         StorageReference ref = CloudStore.getInstance(context).getImageReference(review);
         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
