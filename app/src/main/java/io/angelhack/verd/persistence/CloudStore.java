@@ -84,7 +84,7 @@ public class CloudStore implements PersistenceIFace {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     profile.setPhotoURI(downloadUrl.getPath());
                     writeUser(profile);
                 }
@@ -123,7 +123,7 @@ public class CloudStore implements PersistenceIFace {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    @SuppressWarnings("VisibleForTests")  Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     review.setImageUri(downloadUrl.getPath());
                     writeReview(review);
                 }
