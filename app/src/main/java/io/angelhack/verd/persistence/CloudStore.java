@@ -20,7 +20,6 @@ import java.io.InputStream;
 
 import io.angelhack.verd.firebase.FBProfile;
 import io.angelhack.verd.firebase.FBReview;
-import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.UserImage;
 
 /**
@@ -30,19 +29,11 @@ import io.angelhack.verd.model.UserImage;
 
 public class CloudStore implements PersistenceIFace {
 
-    public static CloudStore instance = null;
-
-    public static CloudStore getInstance() {
-        if(instance == null)
-            instance = new CloudStore();
-        return instance;
-    }
-
+    private static CloudStore instance = null;
     private FirebaseDatabase db; // db instance
     private FirebaseStorage store;
     private DatabaseReference dbRef; // db reference
     private StorageReference storageReference; // for storing imgs
-
     /**
      * Creates a new instance of FirebaseDatabase.
      */
@@ -59,6 +50,12 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
+    public static CloudStore getInstance() {
+        if (instance == null)
+            instance = new CloudStore();
+        return instance;
+    }
+
     @Override
     public void addProfile(final FBProfile profile, @Nullable UserImage userImage) {
         if (userImage != null) {
@@ -69,11 +66,17 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
-    private void writeImageThenUser(final FBProfile profile, @Nullable UserImage userImage) {
+    @Override
+    public void addReview(final FBReview review) {
+        writeImageThenReview(review);
+    }
+
+    private void writeImageThenUser(final FBProfile profile, UserImage userImage) {
         try {
             StorageReference imgRef = this.storageReference.child(profile.getId())
                     .child("profilePic.jpeg");
-            InputStream stream = new FileInputStream(new File(userImage.getPhotoURI().toString()));
+            File file = new File(userImage.getPhotoURI().getPath());
+            InputStream stream = new FileInputStream(file.getAbsolutePath());
             UploadTask uploadTask = imgRef.putStream(stream);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -84,8 +87,9 @@ public class CloudStore implements PersistenceIFace {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    profile.setPhotoURI(downloadUrl.getPath());
+                    @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot
+                            .getDownloadUrl();
+                    if (downloadUrl != null) profile.setPhotoURI(downloadUrl.getPath());
                     writeUser(profile);
                 }
             });
@@ -99,43 +103,43 @@ public class CloudStore implements PersistenceIFace {
         this.dbRef.child(profile.getId()).child("profile").setValue(profile);
     }
 
-    @Override
-    public void addReview(final FBReview review) {
-        if(review.getImageUri() != null) {
-            writeImageThenReview(review);
+    private void writeImageThenReview(final FBReview review) {
+        String imageUri = review.getImageUri();
+        if (imageUri != null) {
+            try {
+                StorageReference imgRef = this.storageReference.child(review.getReviewId())
+                        .child("image.jpeg");
+                File file = new File(imageUri);
+                InputStream stream = new FileInputStream(file.getAbsolutePath());
+                UploadTask uploadTask = imgRef.putStream(stream);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        writeReview(review);
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot
+                                .getDownloadUrl();
+                        if (downloadUrl != null) {
+                            review.setImageUri(downloadUrl.getPath());
+                        }
+                        writeReview(review);
+                    }
+                });
+
+            } catch (FileNotFoundException e) {
+                Log.e("VERD", "Unable to locate FBProfile picture URI!");
+            }
         } else {
             writeReview(review);
         }
     }
 
-    private void writeImageThenReview(final FBReview review) {
-        try {
-            StorageReference imgRef = this.storageReference.child(review.getReviewId())
-                    .child("reviewPic.jpeg");
-            InputStream stream = new FileInputStream(new File(review.getImageUri().toString()));
-            UploadTask uploadTask = imgRef.putStream(stream);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    writeReview(review);
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("VisibleForTests")  Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    review.setImageUri(downloadUrl.getPath());
-                    writeReview(review);
-                }
-            });
-
-        } catch (FileNotFoundException e) {
-            Log.e("VERD", "Unable to locate FBProfile picture URI!");
-        }
-    }
-
     private void writeReview(FBReview review) {
-        this.dbRef.child(review.getReviewId()).child("review").setValue(review);
+        this.dbRef.child(review.getUserId()).child("reviews").child(review.getReviewId())
+                .setValue(review);
     }
 
 }

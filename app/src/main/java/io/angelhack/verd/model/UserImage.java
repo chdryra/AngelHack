@@ -1,8 +1,6 @@
 package io.angelhack.verd.model;
 
-import android.graphics.Bitmap;
-
-import java.net.URI;
+import android.net.Uri;
 
 /**
  * Created by sameenislam on 15/07/2017.
@@ -11,27 +9,22 @@ import java.net.URI;
 public class UserImage {
 
     private User user;
-    private Bitmap photo;
-    private URI photoURI;
+    private Uri photoURI;
 
     public UserImage() {
     }
 
-    public UserImage(User user, Bitmap photo) {
+    public UserImage(User user, Uri uri) {
         this.user = user;
-        this.photo = photo;
+        this.photoURI = uri;
 
     }
 
-    public Bitmap getPhoto() {
-        return photo;
+    public User getUser() {
+        return user;
     }
 
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
-    }
-
-    public URI getPhotoURI() {
+    public Uri getPhotoURI() {
         return photoURI;
     }
 }
