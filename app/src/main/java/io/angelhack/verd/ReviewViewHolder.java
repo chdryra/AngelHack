@@ -2,8 +2,11 @@ package io.angelhack.verd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -51,8 +54,8 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton mCommentButton;
     private TextView mLikeNum;
     private String emojiStr;
-
     private Review mReview;
+
 
     public ReviewViewHolder(View v) {
         super(v);
@@ -86,10 +89,20 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int like = Integer.parseInt(mLikeNum.getText().toString())+1;
-                //if(mLikeButton.getDrawable()==)
-                mLikeNum.setText(String.valueOf(like));
-                mLikeButton.setImageResource(R.mipmap.like_icon);
+                if(mLikeNum.getTag()=="1") {
+
+                    int like = Integer.parseInt(mLikeNum.getText().toString())-1;
+                    mLikeNum.setText(String.valueOf(like));
+                    mLikeButton.setImageResource(R.mipmap.like_outline_icon);
+                    mLikeNum.setTag("0");
+                }
+                else {
+
+                    int like = Integer.parseInt(mLikeNum.getText().toString())+1;
+                    mLikeNum.setText(String.valueOf(like));
+                    mLikeButton.setImageResource(R.mipmap.like_icon);
+                    mLikeNum.setTag("1");
+                }
             }
         });
 

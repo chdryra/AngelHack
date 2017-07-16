@@ -81,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@mipmap/like_outline_icon"
+
                     />
 
                 <TextView
@@ -89,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="3"/>
+                    android:text="3"
+                    android:tag="0"/>
 
                 </LinearLayout>
 
