@@ -80,7 +80,8 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:onClick=""/>
+                    android:src="@mipmap/like_outline_icon"
+                    android:onClick="likeButtonOnClick"/>
 
                 <TextView
                     android:id="@+id/like_num"
@@ -88,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="35"/>
+                    android:text="3"/>
 
                 </LinearLayout>
 
@@ -101,7 +102,8 @@
                     android:id="@+id/comment_button"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    />
 
                 <TextView
                     android:id="@+id/comment_num"
@@ -109,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="35"/>
+                    android:text="6"/>
 
                 </LinearLayout>
 
@@ -122,7 +124,8 @@
                     android:id="@+id/share_button"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@mipmap/share_icon"/>
 
                 <TextView
                     android:id="@+id/share_num"
@@ -130,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="35"/>
+                    android:text="4"/>
 
                 </LinearLayout>
 

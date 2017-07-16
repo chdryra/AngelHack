@@ -1,6 +1,7 @@
 package io.angelhack.verd;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private static final int LIKE_BUTTON = R.id.like_button;
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
+    private static final int LIKE_NUM = R.id.like_num;
 
     private final ImageView mUserPhoto;
     private final TextView mUserName;
@@ -45,8 +47,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private final TextView mReviewComment;
     private final TextView mReviewDate;
     private final ImageButton mShareButton;
-    private final ImageButton mLikeButton;
+    private ImageButton mLikeButton;
     private final ImageButton mCommentButton;
+    private TextView mLikeNum;
 
     private Review mReview;
 
@@ -93,5 +96,17 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
         DateFormat df = SimpleDateFormat.getDateInstance();
         mReviewDate.setText(df.format(review.getTimestamp()));
+    }
+
+    public void likeButtonOnClick(View v){
+        mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
+        mLikeNum    = (TextView) v.findViewById(LIKE_NUM);
+
+        mLikeNum.setText(Integer.parseInt(mLikeNum.getText().toString())+1);
+        String uri = "@drawable/myresource";  // where myresource (without the extension) is the file
+
+        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+        Drawable res = getResources().getDrawable();
+        mLikeButton.setImageDrawable();
     }
 }
