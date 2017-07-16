@@ -39,6 +39,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
     private static final int LIKE_NUM = R.id.like_num;
+    private static final int SHARE_NUM = R.id.share_num;
 
     private final ImageView mUserPhoto;
     private final TextView mUserName;
@@ -50,6 +51,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private ImageButton mLikeButton;
     private final ImageButton mCommentButton;
     private TextView mLikeNum;
+    private TextView mShareNum;
     private String emojiStr;
 
     private Review mReview;
@@ -66,13 +68,15 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
         mCommentButton = (ImageButton) v.findViewById(COMMENT_BUTTON);
         mLikeNum = (TextView) v.findViewById(LIKE_NUM);
-
+        mShareNum = (TextView) v.findViewById(SHARE_NUM);
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int like = Integer.parseInt(mShareNum.getText().toString())+1;
+                mShareNum.setText(String.valueOf(like));
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                String sendStr = mUserName.getText() + " says '" +
+                String sendStr = "Check out " + mUserName.getText() + "'s review '" +
                         mReview.getComment() + "' " + emojiStr + " on Verd: "
                         + "http://bit.ly/2tfMbFg" ;
                 sendIntent.putExtra(Intent.EXTRA_TEXT, sendStr);
