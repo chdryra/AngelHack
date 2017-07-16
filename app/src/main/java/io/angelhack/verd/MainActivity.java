@@ -16,54 +16,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.UUID;
+
 import io.angelhack.verd.model.ModelVerd;
+import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.Session;
 import io.angelhack.verd.model.User;
 import io.angelhack.verd.persistence.CloudStore;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CloudStore.FeedListener{
 
     private FeedPresenter mPresenter;
     CharSequence imageOptions[] = new CharSequence[] {"Take a picture", "Choose from gallery"};
+    private RecyclerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setSession();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setActionButton();
+        setBottomNavigation();
         mPresenter = new FeedPresenter(ModelVerd.getInstance(this));
         setRecyclerView();
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final Intent intent = new Intent(getBaseContext(), NewReviewActivity.class);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                builder.setTitle("Add image");
-                builder.setItems(imageOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int optionChosen) {
-                        if(optionChosen==0){
-                            intent.putExtra("option", optionChosen);
-                            startActivity(intent);
-                        }
-                        else if(optionChosen==1){
-                            intent.putExtra("option", optionChosen);
-                            startActivity(intent);
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-
-        setSession();
         getFeed();
+    }
 
+    private void setBottomNavigation() {
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
@@ -89,19 +71,54 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void setActionButton() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final Intent intent = new Intent(getBaseContext(), NewReviewActivity.class);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                builder.setTitle("Add image");
+                builder.setItems(imageOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int optionChosen) {
+                        if(optionChosen==0){
+                            intent.putExtra("option", optionChosen);
+                            startActivity(intent);
+                        }
+                        else if(optionChosen==1){
+                            intent.putExtra("option", optionChosen);
+                            startActivity(intent);
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
     private void getFeed() {
         CloudStore cs = CloudStore.getInstance(this);
+        cs.getFeed(Session.getInstance().getUser(), this);
+    }
 
+    @Override
+    public void onReview(Review review) {
+        mAdapter.addReview(review);
     }
 
     private void setSession() {
-        Session.newSession(User.generate());
+        User user = User.generate();
+        user.setId(UUID.fromString("ff4a3c26-f1c3-4475-a65e-4e78e0e64eef"));
+        Session.newSession(user);
     }
 
     private void setRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecyclerAdapter(mPresenter.getUsersRepo()));
+        mAdapter = new RecyclerAdapter(mPresenter.getUsersRepo());
+        recyclerView.setAdapter(mAdapter);
     }
 
 

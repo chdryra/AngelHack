@@ -8,6 +8,9 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -18,10 +21,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.UUID;
 
 import io.angelhack.verd.firebase.FBProfile;
 import io.angelhack.verd.firebase.FBReview;
 import io.angelhack.verd.model.Review;
+import io.angelhack.verd.model.User;
 import io.angelhack.verd.model.UserImage;
 
 /**
@@ -40,6 +46,11 @@ public class CloudStore implements PersistenceIFace {
     /**
      * Creates a new instance of FirebaseDatabase.
      */
+
+    public interface FeedListener {
+        void onReview(Review review);
+    }
+
     public CloudStore(Context context) {
         this.db = FirebaseDatabase.getInstance();
         this.dbRef = this.db.getReference();
@@ -73,6 +84,42 @@ public class CloudStore implements PersistenceIFace {
     @Override
     public void addReview(final Review review) {
         writeImageThenReview(review);
+    }
+
+    public StorageReference getImageReference(Review review) {
+        return getImageReference(review.getReviewID().toString());
+    }
+    public void getFeed(final User user, final FeedListener callback) {
+        DatabaseReference ref = this.dbRef.child(user.getId().toString()).child("reviews");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                FBReview review = dataSnapshot.getValue(FBReview.class);
+                Uri imageUri = Uri.parse(review.getImageUri());
+                Review rev = new Review(user, UUID.fromString(review.getReviewId()), review.getRating(), review.getComment(), new Date(review.getTimestamp()), imageUri);
+                callback.onReview(rev);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void writeImageThenUser(final FBProfile profile, UserImage userImage) {
@@ -113,8 +160,8 @@ public class CloudStore implements PersistenceIFace {
                 review.getReviewID().toString(), review.getRating(), review.getComment(), review.getTimestamp().getTime());
         if (imageUri != null) {
             try {
-                StorageReference imgRef = this.storageReference.child(fbReview.getReviewId())
-                        .child("image.jpeg");
+                String reviewId = fbReview.getReviewId();
+                StorageReference imgRef = getImageReference(reviewId);
                 InputStream stream = context.getContentResolver().openInputStream(review.getImageUri());
                 UploadTask uploadTask = imgRef.putStream(stream);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -140,6 +187,12 @@ public class CloudStore implements PersistenceIFace {
         } else {
             writeReview(fbReview);
         }
+    }
+
+    @NonNull
+    private StorageReference getImageReference(String reviewId) {
+        return this.storageReference.child(reviewId)
+                            .child("image.jpeg");
     }
 
     private void writeReview(FBReview review) {

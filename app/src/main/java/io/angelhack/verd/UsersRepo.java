@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import io.angelhack.verd.model.ModelVerdIFace;
 import io.angelhack.verd.model.Profile;
+import io.angelhack.verd.model.User;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,8 +19,9 @@ public class UsersRepo {
         mModel = model;
     }
 
-    public UserViewData getProfile(UUID userId) {
-        Profile profile = mModel.getProfile(userId);
-        return new UserViewData(userId, profile.getName(), null);
+    public UserViewData getProfile(User userId) {
+        UUID id = userId.getId();
+        Profile profile = mModel.getProfile(id);
+        return new UserViewData(id, profile.getName(), null);
     }
 }
