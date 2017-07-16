@@ -19,6 +19,7 @@ import android.view.View;
 import io.angelhack.verd.model.ModelVerd;
 import io.angelhack.verd.model.Session;
 import io.angelhack.verd.model.User;
+import io.angelhack.verd.persistence.CloudStore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setSession();
+        getFeed();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -85,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void getFeed() {
+        CloudStore cs = CloudStore.getInstance(this);
+
     }
 
     private void setSession() {
