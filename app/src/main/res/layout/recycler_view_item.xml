@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@mipmap/like_outline_icon"
-                    android:onClick="likeButtonOnClick"/>
+                    />
 
                 <TextView
                     android:id="@+id/like_num"

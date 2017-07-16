@@ -65,6 +65,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mShareButton = (ImageButton) v.findViewById(SHARE_BUTTON);
         mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
         mCommentButton = (ImageButton) v.findViewById(COMMENT_BUTTON);
+        mLikeNum = (TextView) v.findViewById(LIKE_NUM);
 
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +83,15 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        mLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int like = Integer.parseInt(mLikeNum.getText().toString())+1;
+                //if(mLikeButton.getDrawable()==)
+                mLikeNum.setText(String.valueOf(like));
+                mLikeButton.setImageResource(R.mipmap.like_icon);
+            }
+        });
 
     }
 
@@ -128,11 +138,4 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mReviewDate.setText(df.format(review.getTimestamp()));
     }
 
-    public void likeButtonOnClick(View v){
-        mLikeButton = (ImageButton) v.findViewById(LIKE_BUTTON);
-        mLikeNum    = (TextView) v.findViewById(LIKE_NUM);
-
-        mLikeNum.setText(Integer.parseInt(mLikeNum.getText().toString())+1);
-        mLikeButton.setImageResource(R.mipmap.like_icon);
-    }
 }
