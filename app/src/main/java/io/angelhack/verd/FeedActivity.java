@@ -60,8 +60,7 @@ public class FeedActivity extends AppCompatActivity implements CloudStore.FeedLi
                         }
 
                         else if (item.getItemId() == R.id.my_profile_button) {
-                            Snackbar.make(bottomNavigationView, "profile pressed", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
+                            
                         }
                     return true;
 
