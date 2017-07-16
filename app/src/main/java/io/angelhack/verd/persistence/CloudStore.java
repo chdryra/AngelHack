@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import io.angelhack.verd.firebase.FBProfile;
 import io.angelhack.verd.firebase.FBReview;
+import io.angelhack.verd.model.Profile;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.User;
 import io.angelhack.verd.model.UserImage;
@@ -89,7 +90,15 @@ public class CloudStore implements PersistenceIFace {
     public StorageReference getImageReference(Review review) {
         return getImageReference(review.getReviewID().toString());
     }
-    public void getFeed(final User user, final FeedListener callback) {
+
+    public void getFeed(Profile profile, final FeedListener callback) {
+        sunscribeToFeed(profile.getUser(), callback);
+        for(User user : profile.getFollowing()) {
+            sunscribeToFeed(user, callback);
+        }
+    }
+
+    private void sunscribeToFeed(final User user, final FeedListener callback) {
         DatabaseReference ref = this.dbRef.child(user.getId().toString()).child("reviews");
         ref.addChildEventListener(new ChildEventListener() {
             @Override

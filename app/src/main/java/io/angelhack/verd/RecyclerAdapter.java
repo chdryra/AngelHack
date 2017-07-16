@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.angelhack.verd.model.Review;
@@ -29,11 +31,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ReviewViewHolder>{
     }
 
     public void addReview(Review review) {
-        ArrayList<Review> newList = new ArrayList<>();
-        newList.add(review);
-        newList.addAll(mReviews);
-        mReviews.clear();
-        mReviews.addAll(newList);
+        mReviews.add(review);
+        Collections.sort(mReviews, new Comparator<Review>() {
+            public int compare(Review lhs, Review rhs) {
+                return rhs.getTimestamp().compareTo(lhs.getTimestamp());
+            }
+        });
         notifyDataSetChanged();
     }
 

@@ -18,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import io.angelhack.verd.model.Profile;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.persistence.CloudStore;
 
@@ -75,9 +76,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         });
 
         mReviewComment.setText(review.getComment());
-        //UserViewData profile = repo.getProfile(review.getUserId());
+        Profile profile = repo.getProfile(review.getUserId());
         mUserPhoto.setImageBitmap(null);
-        mUserName.setText("Riz");
+        mUserName.setText(profile.getName());
         mUserPhoto.setImageResource(R.mipmap.profile_icon);
         int emoji;
         if(review.getRating() == 0) {

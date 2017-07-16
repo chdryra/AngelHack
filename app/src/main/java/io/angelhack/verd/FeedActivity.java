@@ -16,25 +16,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.UUID;
-
 import io.angelhack.verd.model.ModelVerd;
+import io.angelhack.verd.model.Profile;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.Session;
 import io.angelhack.verd.model.User;
 import io.angelhack.verd.persistence.CloudStore;
 
-public class MainActivity extends AppCompatActivity implements CloudStore.FeedListener{
+public class FeedActivity extends AppCompatActivity implements CloudStore.FeedListener{
 
     private FeedPresenter mPresenter;
-    CharSequence imageOptions[] = new CharSequence[] {"Take a picture", "Choose from gallery"};
+    private CharSequence imageOptions[] = new CharSequence[] {"Take a picture", "Choose from gallery"};
     private RecyclerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSession();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,18 +98,14 @@ public class MainActivity extends AppCompatActivity implements CloudStore.FeedLi
 
     private void getFeed() {
         CloudStore cs = CloudStore.getInstance(this);
-        cs.getFeed(Session.getInstance().getUser(), this);
+        User user = Session.getInstance().getUser();
+        Profile profile = ModelVerd.getInstance(this).getProfile(user);
+        cs.getFeed(profile, this);
     }
 
     @Override
     public void onReview(Review review) {
         mAdapter.addReview(review);
-    }
-
-    private void setSession() {
-        User user = User.generate();
-        user.setId(UUID.fromString("ff4a3c26-f1c3-4475-a65e-4e78e0e64eef"));
-        Session.newSession(user);
     }
 
     private void setRecyclerView() {

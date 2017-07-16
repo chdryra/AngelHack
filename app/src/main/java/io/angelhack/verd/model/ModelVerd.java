@@ -1,10 +1,12 @@
 package io.angelhack.verd.model;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.UUID;
 
+import io.angelhack.verd.LoginActivity;
 import io.angelhack.verd.persistence.CloudStore;
 
 /**
@@ -22,6 +24,7 @@ public class ModelVerd implements ModelVerdIFace {
         return instance;
     }
 
+
     private CloudStore cloudStorage;
 
     public CloudStore getCloudStorage() {
@@ -33,15 +36,31 @@ public class ModelVerd implements ModelVerdIFace {
     }
 
     @Override
-    public Profile getProfile(UUID userID) {
-        throw new UnsupportedOperationException();
-//        return null;
+    public Profile getProfile(User user) {
+        Profile profile;
+        if(user.getId().toString().equals(LoginActivity.RIZ)) {
+            profile = getRiz();
+            profile.addFollowing(getFaraz().getUser());
+        } else {
+            profile = getFaraz();
+            profile.addFollowing(getRiz().getUser());
+        }
+
+        return profile;
     }
 
-    @Override
-    public Review getReview(UUID reviewID) {
-        throw new UnsupportedOperationException();
-//        return null;
+    @NonNull
+    private Profile getRiz() {
+        User f = User.generate();
+        f.setId(UUID.fromString(LoginActivity.RIZ));
+        return new Profile(f, LoginActivity.RIZ_NAME);
+    }
+
+    @NonNull
+    private Profile getFaraz() {
+        User f = User.generate();
+        f.setId(UUID.fromString(LoginActivity.FARAZ));
+        return new Profile(f, LoginActivity.FARAZ_NAME);
     }
 
     @Override
