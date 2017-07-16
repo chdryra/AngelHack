@@ -71,8 +71,9 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                String sendStr = mUserName.getText() + " says '" + mReview.getComment() + "' " + emojiStr +
-                        ".";
+                String sendStr = mUserName.getText() + " says '" +
+                        mReview.getComment() + "' " + emojiStr + " on Verd: "
+                        + "http://bit.ly/2tfMbFg" ;
                 sendIntent.putExtra(Intent.EXTRA_TEXT, sendStr);
                 sendIntent.setType("text/plain");
                 view.getContext()
