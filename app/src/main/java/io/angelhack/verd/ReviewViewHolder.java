@@ -50,7 +50,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     private ImageButton mLikeButton;
     private final ImageButton mCommentButton;
     private TextView mLikeNum;
-
+    private String emojiStr;
 
     private Review mReview;
 
@@ -71,7 +71,8 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                String sendStr = mUserName + " says '" + mReview.getComment() + "'.";
+                String sendStr = mUserName.getText() + " says '" + mReview.getComment() + "' " + emojiStr +
+                        ".";
                 sendIntent.putExtra(Intent.EXTRA_TEXT, sendStr);
                 sendIntent.setType("text/plain");
                 view.getContext()
@@ -103,7 +104,6 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
         mUserPhoto.setImageBitmap(null);
         mUserName.setText(profile.getName());
         mUserPhoto.setImageResource(R.mipmap.profile_icon);
-        String emojiStr;
         int emoji;
         if(review.getRating() == 3) {
             emoji = R.mipmap.verd_emoji;
