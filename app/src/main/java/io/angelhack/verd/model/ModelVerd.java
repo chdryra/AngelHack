@@ -1,10 +1,10 @@
 package io.angelhack.verd.model;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.UUID;
 
-import io.angelhack.verd.firebase.FBReview;
 import io.angelhack.verd.persistence.CloudStore;
 
 /**
@@ -15,9 +15,9 @@ public class ModelVerd implements ModelVerdIFace {
 
     private static ModelVerd instance = null;
 
-    public static ModelVerd getInstance() {
+    public static ModelVerd getInstance(Context context) {
         if(instance == null) {
-            instance = new ModelVerd();
+            instance = new ModelVerd(context);
         }
         return instance;
     }
@@ -28,8 +28,8 @@ public class ModelVerd implements ModelVerdIFace {
         return cloudStorage;
     }
 
-    protected ModelVerd() {
-        this.cloudStorage = CloudStore.getInstance();
+    protected ModelVerd(Context context) {
+        this.cloudStorage = CloudStore.getInstance(context);
     }
 
     @Override
@@ -51,11 +51,7 @@ public class ModelVerd implements ModelVerdIFace {
 
     @Override
     public void addReview(Review review) {
-        FBReview fbReview = new FBReview(review.getUserId().getId().toString(),
-                review.getReviewID().toString(), review.getRating(), review.getComment(),
-                review.getTimestamp().getTime());
-
-        cloudStorage.addReview(fbReview);
+        cloudStorage.addReview(review);
         Log.d("VERD", "Review added to FIREBASE.");
     }
 }

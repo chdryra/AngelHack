@@ -5,40 +5,33 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.TextureView;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.io.IOException;
-import java.security.Timestamp;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.UUID;
 
 import io.angelhack.verd.firebase.FBReview;
-import io.angelhack.verd.model.ModelVerdIFace;
 import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.Session;
 import io.angelhack.verd.persistence.CloudStore;
 
-import static android.R.attr.content;
-import static android.R.attr.contextUri;
-import static android.R.attr.x;
-
 public class NewReviewActivity extends AppCompatActivity {
+    private final static int REQUEST_IMAGE_CAPTURE = 0;
+    private final static int PICK_IMAGE_REQUEST = 1;
 
-    Intent intent = new Intent();
+    private Intent intent = new Intent();
     private EditText mComment;
     private int mEmojiRating;
+
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +46,6 @@ public class NewReviewActivity extends AppCompatActivity {
             dispatchTakePictureIntent();
         }
     }
-
-    final int REQUEST_IMAGE_CAPTURE = 0;
-    final int PICK_IMAGE_REQUEST = 1;
-    Uri uri;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -80,15 +69,11 @@ public class NewReviewActivity extends AppCompatActivity {
             uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-
-
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -137,7 +122,6 @@ public class NewReviewActivity extends AppCompatActivity {
         cursor.moveToFirst();
         int orientation = cursor.getInt(0);
         cursor.close();
-        cursor = null;
         return orientation;
     }
 
@@ -163,10 +147,13 @@ public class NewReviewActivity extends AppCompatActivity {
         String comment = mComment.getText().toString();
         Review newReview = new Review(Session.getInstance().getUser(), UUID.randomUUID(),mEmojiRating,comment,time,uri);
 
-        CloudStore cs = new CloudStore();
+        CloudStore cs = new CloudStore(this);
         FBReview review = new FBReview(newReview.getUserId().getId().toString(),
                 newReview.getReviewID().toString(),newReview.getRating(),newReview.getComment(),newReview.getTimestamp().getTime());
-        cs.addReview(review);
+        File file = new File(newReview.getImageUri().getPath());
+        //review.setImageUri(file.getAbsolutePath());
+        review.setImageUri(uri.toString());
+        cs.addReview(newReview);
         finish();
     }
 

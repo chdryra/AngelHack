@@ -1,5 +1,6 @@
 package io.angelhack.verd.persistence;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 
 import io.angelhack.verd.firebase.FBProfile;
 import io.angelhack.verd.firebase.FBReview;
+import io.angelhack.verd.model.Review;
 import io.angelhack.verd.model.UserImage;
 
 /**
@@ -30,6 +32,7 @@ import io.angelhack.verd.model.UserImage;
 public class CloudStore implements PersistenceIFace {
 
     private static CloudStore instance = null;
+    private Context context;
     private FirebaseDatabase db; // db instance
     private FirebaseStorage store;
     private DatabaseReference dbRef; // db reference
@@ -37,11 +40,12 @@ public class CloudStore implements PersistenceIFace {
     /**
      * Creates a new instance of FirebaseDatabase.
      */
-    public CloudStore() {
+    public CloudStore(Context context) {
         this.db = FirebaseDatabase.getInstance();
         this.dbRef = this.db.getReference();
         this.store = FirebaseStorage.getInstance();
         this.storageReference = this.store.getReference();
+        this.context = context;
     }
 
     public CloudStore(FirebaseDatabase database) {
@@ -50,9 +54,9 @@ public class CloudStore implements PersistenceIFace {
 
     }
 
-    public static CloudStore getInstance() {
+    public static CloudStore getInstance(Context context) {
         if (instance == null)
-            instance = new CloudStore();
+            instance = new CloudStore(context);
         return instance;
     }
 
@@ -67,7 +71,7 @@ public class CloudStore implements PersistenceIFace {
     }
 
     @Override
-    public void addReview(final FBReview review) {
+    public void addReview(final Review review) {
         writeImageThenReview(review);
     }
 
@@ -103,19 +107,20 @@ public class CloudStore implements PersistenceIFace {
         this.dbRef.child(profile.getId()).child("profile").setValue(profile);
     }
 
-    private void writeImageThenReview(final FBReview review) {
-        String imageUri = review.getImageUri();
+    private void writeImageThenReview(final Review review) {
+        Uri imageUri = review.getImageUri();
+        final FBReview fbReview = new FBReview(review.getUserId().getId().toString(),
+                review.getReviewID().toString(), review.getRating(), review.getComment(), review.getTimestamp().getTime());
         if (imageUri != null) {
             try {
-                StorageReference imgRef = this.storageReference.child(review.getReviewId())
+                StorageReference imgRef = this.storageReference.child(fbReview.getReviewId())
                         .child("image.jpeg");
-                File file = new File(imageUri);
-                InputStream stream = new FileInputStream(file.getAbsolutePath());
+                InputStream stream = context.getContentResolver().openInputStream(review.getImageUri());
                 UploadTask uploadTask = imgRef.putStream(stream);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        writeReview(review);
+                        writeReview(fbReview);
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -123,9 +128,9 @@ public class CloudStore implements PersistenceIFace {
                         @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot
                                 .getDownloadUrl();
                         if (downloadUrl != null) {
-                            review.setImageUri(downloadUrl.getPath());
+                            fbReview.setImageUri(downloadUrl.getPath());
                         }
-                        writeReview(review);
+                        writeReview(fbReview);
                     }
                 });
 
@@ -133,7 +138,7 @@ public class CloudStore implements PersistenceIFace {
                 Log.e("VERD", "Unable to locate FBProfile picture URI!");
             }
         } else {
-            writeReview(review);
+            writeReview(fbReview);
         }
     }
 

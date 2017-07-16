@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPresenter = new FeedPresenter(ModelVerd.getInstance());
+        mPresenter = new FeedPresenter(ModelVerd.getInstance(this));
         setRecyclerView();
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
