@@ -46,13 +46,10 @@ public class ModelVerd implements ModelVerdIFace {
             profile.addFollowing(getRiz().getUser());
         } else if(user.getId().toString().equals(LoginActivity.SAM)){
             profile = getSam();
-            profile.addFollowing(getRiz().getUser());
         } else if(user.getId().toString().equals(LoginActivity.GAUTHAM)){
             profile = getGautham();
-            profile.addFollowing(getRiz().getUser());
         } else {
             profile = getJay();
-            profile.addFollowing(getRiz().getUser());
         }
 
         return profile;
